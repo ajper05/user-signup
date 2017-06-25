@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, render_template
 import cgi
 import os
 import jinja2
@@ -13,15 +13,12 @@ app.config['DEBUG'] = True
 
 @app.route("/")
 def index():
-    template = jinja_env.get_template('index.html')
-    return template.render()
+    return render_template('index.html')
 
-
-@app.route("/Welcome")
+@app.route("/welcome", methods=['POST'])
 def welcome():
-    username = request.form['username']
-    template = jinja_env.get_template('welcome.html')
-    return template.render(username=username)
+    user = request.form['user']
+    return render_template('welcome.html', user=user)
 
 
 app.run()
