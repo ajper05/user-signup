@@ -32,6 +32,10 @@ def signup_validate():
         username = request.form['username']
 
         verification = request.form['verification']
+        
+        email = request.form['email']
+
+        email_error = ""
 
         user_error = ""
 
@@ -53,7 +57,11 @@ def signup_validate():
             user_error = "That's not a valid username"
             username = ""
 
-        if not pass_error and not verification_error and not user_error:
+        if "@" not in email or "." not in email:
+            email_error = "That is not a valid email"
+            email = ""
+
+        if not pass_error and not verification_error and not user_error and not email_error:
             return redirect('/welcome?username=' + username)
         else:
             template = jinja_env.get_template('index.html')
